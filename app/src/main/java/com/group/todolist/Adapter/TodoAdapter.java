@@ -22,10 +22,28 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         this.activity = activity;
     }
 
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        view itemView = LayoutInflater.from(parent.getContext())
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.task_layout, parent, false);
-        return new RecyclerView.ViewHolder(itemView);
+        return new ViewHolder(itemView);
+    }
+    public void onBindViewHolder(ViewHolder holder, int position){
+        TodoModel item = todolist.get(position);
+        holder.task.setText(item.getTask());
+        holder.task.setChecked(toBoolean(item.getStatus()));
+    }
+
+    public int getItemCount(){
+        return todolist.size();
+    }
+
+    private boolean toBoolean(int n){
+        return n!=0;
+    }
+
+    public void setTasks(List<TodoModel> todolist){
+        this.todolist = todolist;
+        notifyDataSetChanged();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox task;
